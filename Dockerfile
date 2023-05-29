@@ -9,4 +9,4 @@ FROM eclipse-temurin as backend
 WORKDIR /root
 COPY --from=builder /project/build/install/red-sun/ ./app/
 WORKDIR /root/app/
-ENTRYPOINT ["bin/red-sun"]
+ENTRYPOINT ["/root/app/bin/red-sun"]
