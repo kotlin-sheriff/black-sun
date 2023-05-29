@@ -9,8 +9,9 @@ import com.github.kotlintelegrambot.dispatcher.message
 import com.github.kotlintelegrambot.entities.ChatId.Companion.fromId
 import com.sksamuel.hoplite.ConfigLoaderBuilder
 import com.sksamuel.hoplite.addEnvironmentSource
-import java.lang.Thread.startVirtualThread
+import javax.script.ScriptContext.GLOBAL_SCOPE
 import javax.script.ScriptEngineManager
+import javax.script.SimpleBindings
 
 data class ApplicationConfig(
   val telegramApiToken: String,
@@ -27,24 +28,34 @@ open class ApplicationFactory {
   }
 
   open val bot by lazy {
-    bot {
-      token = config.telegramApiToken
-      dispatch {
-        message(::executeSpell)
-        command("debug_next_spell", ::debugNextSpell)
+    TelegramBot(
+      bot {
+        token = config.telegramApiToken
+        dispatch {
+          message(::executeSpell)
+          command("debug_next_spell", ::debugNextSpell)
+        }
       }
-    }
+    )
   }
 
   open val storage by lazy {
     MagicStorage(bot, fromId(config.storageId))
   }
 
+  open val sharedVariables by lazy {
+    SimpleBindings(
+      mapOf(
+        "storage" to storage,
+        "bot" to bot
+      )
+    )
+  }
+
   open val engine by lazy {
-    val engine = ScriptEngineManager().getEngineByExtension("kts")!!
-    engine.put("storage", storage)
-    engine.put("bot", TelegramBot(bot))
-    engine
+    ScriptEngineManager()
+      .getEngineByExtension("kts")
+      .apply { setBindings(sharedVariables, GLOBAL_SCOPE) }!!
   }
 
   open val redSun by lazy {

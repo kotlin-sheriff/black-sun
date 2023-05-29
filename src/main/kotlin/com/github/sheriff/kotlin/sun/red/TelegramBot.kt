@@ -18,7 +18,10 @@ import java.time.Instant.now
 import java.time.Instant.ofEpochSecond
 import java.io.File as SystemFile
 
-
+/**
+ * Safe wrapper for [Bot].
+ */
+@Suppress("MemberVisibilityCanBePrivate")
 class TelegramBot(private val bot: Bot) {
 
 
@@ -1338,4 +1341,6 @@ class TelegramBot(private val bot: Bot) {
     userId,
     customTitle,
   )
+
+  fun startPolling() = bot.startPolling()
 }

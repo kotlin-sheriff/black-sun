@@ -24,7 +24,6 @@ class RedSun(private val engine: ScriptEngine) {
   fun executeSpell(env: MessageHandlerEnvironment) {
     val spell = env.message.text ?: return
     try {
-      print('.')
       engine.eval(spell, bindingsOf(env))
     } catch (e: ScriptException) {
       debug(e, env)
@@ -53,9 +52,7 @@ class RedSun(private val engine: ScriptEngine) {
     val originalMessageId = to.message.messageId
     val stackTrace = // language=markdown
       """
-      ```
-      ${e.stackTraceToString()}
-      ```
+      `${e.stackTraceToString().trim()}`
       """.trimIndent()
     bot.sendMessage(chatId, stackTrace, MARKDOWN_V2, replyToMessageId = originalMessageId)
   }

@@ -24,7 +24,7 @@ import java.util.concurrent.Future
  * Do not change the channel description or files!
  *
  */
-class MagicStorage(private val bot: Bot, private val channel: ChatId) : Closeable {
+class MagicStorage(private val bot: TelegramBot, private val channel: ChatId) : Closeable {
 
   /**
    * Map: your key -> bot file id
