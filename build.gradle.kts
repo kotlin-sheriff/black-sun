@@ -26,10 +26,6 @@ dependencies {
   testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.3")
 }
 
-allOpen {
-  annotation("com.github.kotlintelegrambot.Open")
-}
-
 application {
   mainClass.set("com.github.sheriff.kotlin.sun.red.ApplicationKt")
   applicationDefaultJvmArgs += "--enable-preview"
