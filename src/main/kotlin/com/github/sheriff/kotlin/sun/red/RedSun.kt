@@ -24,6 +24,7 @@ class RedSun(private val engine: ScriptEngine) {
   fun executeSpell(env: MessageHandlerEnvironment) {
     val spell = env.message.text ?: return
     try {
+      print('.')
       engine.eval(spell, bindingsOf(env))
     } catch (e: ScriptException) {
       debug(e, env)
