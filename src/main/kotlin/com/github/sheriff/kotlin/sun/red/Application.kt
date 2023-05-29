@@ -56,9 +56,7 @@ open class ApplicationFactory {
   }
 
   open fun executeSpell(environment: MessageHandlerEnvironment) {
-    startVirtualThread {
-      redSun.executeSpell(environment)
-    }
+    redSun.executeSpell(environment)
   }
 }
 
