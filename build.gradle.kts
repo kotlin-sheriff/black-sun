@@ -15,6 +15,7 @@ repositories {
 }
 
 dependencies {
+  implementation("com.github.kotlinx.ast:grammar-kotlin-parser-antlr-kotlin:v0.1.0")
   runtimeOnly("org.jetbrains.kotlin:kotlin-scripting-jsr223:1.9.10")
   implementation("com.squareup.retrofit2:retrofit:2.9.0")
   implementation("com.github.sisyphsu:dateparser:1.0.11")

@@ -55,7 +55,9 @@ open class ApplicationFactory {
   open val engine by lazy {
     ScriptEngineManager()
       .getEngineByExtension("kts")
-      .apply { setBindings(sharedVariables, GLOBAL_SCOPE) }!!
+      .apply {
+        setBindings(sharedVariables, GLOBAL_SCOPE)
+      }!!
   }
 
   open val redSun by lazy {
