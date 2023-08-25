@@ -19,7 +19,8 @@ object KtsVerification {
     }
 
     astResult.onFailure {
-      it.forEach(::println)
+      val errors = it.joinToString("\n  ")
+      error("Errors detected:\n  $errors")
     }
   }
 

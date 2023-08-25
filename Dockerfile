@@ -7,6 +7,6 @@ RUN gradle clean build
 
 FROM eclipse-temurin as backend
 WORKDIR /root
-COPY --from=builder /project/build/install/red-sun/ ./app/
+COPY --from=builder /project/build/install/black-sun/ ./app/
 WORKDIR /root/app/
-ENTRYPOINT ["/root/app/bin/red-sun"]
+ENTRYPOINT ["/root/app/bin/black-sun"]
