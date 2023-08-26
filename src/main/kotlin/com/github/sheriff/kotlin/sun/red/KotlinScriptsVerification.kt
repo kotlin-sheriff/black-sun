@@ -2,28 +2,33 @@ package com.github.sheriff.kotlin.sun.red
 
 import kotlinx.ast.common.AstSource
 import kotlinx.ast.common.ast.Ast
-import kotlinx.ast.common.print
+import kotlinx.ast.common.ast.DefaultAstNode
 import kotlinx.ast.grammar.kotlin.common.summary
 import kotlinx.ast.grammar.kotlin.target.antlr.kotlin.KotlinGrammarAntlrKotlinParser.parseKotlinFile
 
-object KtsVerification {
+object KotlinScriptsVerification {
 
-  fun verifyKts(kts: String) {
-    val modifiedCode = kts.toStandardKotlinCode()
-    val astSource = AstSource.String(javaClass.simpleName, modifiedCode)
+  fun verifyKotlinScript(kotlinScript: String) {
+    val standardKotlin = kotlinScript.toStandardKotlinCode()
+    val astSource = AstSource.String(javaClass.simpleName, standardKotlin)
     val parsedFile = parseKotlinFile(astSource)
     val astResult = parsedFile.summary(true)
-
-    astResult.onSuccess {
-      it.forEach(Ast::print)
+    astResult.onSuccess { astList ->
+      astList.forEach(AstChecker()::checkAst)
     }
-
-    astResult.onFailure {
-      val errors = it.joinToString("\n  ")
+    astResult.onFailure { errorsList ->
+      val errors = errorsList.joinToString("\n  ")
       error("Errors detected:\n  $errors")
     }
   }
 
+  private class AstChecker {
+
+    fun checkAst(ast: Ast) {
+      println("${ast.javaClass} is $ast")
+      println()
+    }
+  }
 
   private fun String.toStandardKotlinCode(): String {
     var builder = ImportsBuilder() as KtsTransformerToKotlinFile
